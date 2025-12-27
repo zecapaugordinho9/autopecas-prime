@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>AutoPeças Prime</title>
+
+<style>
+:root {
+    --azul-escuro: #1e3a8a;
+    --azul-claro: #3b82f6;
+    --cinza-claro: #f1f5f9;
+    --cinza-escuro: #334155;
+    --branco: #ffffff;
+    --verde: #16a34a;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--cinza-claro);
+    color: var(--cinza-escuro);
+}
+
+/* Header */
+header {
+    background-color: var(--azul-escuro);
+    color: var(--branco);
+    padding: 20px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.contato {
+    font-size: 14px;
+}
+
+/* Menu */
+nav {
+    background-color: var(--azul-claro);
+    padding: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: var(--branco);
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Conteúdo */
+.container {
+    padding: 40px 20px;
+}
+
+/* Produtos */
+.produtos {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.produto {
+    background-color: var(--branco);
+    width: 260px;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+}
+
+.produto img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.produto h3 {
+    margin: 12px 0 5px;
+}
+
+.preco {
+    color: var(--verde);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Botões */
+button {
+    background-color: var(--azul-claro);
+    border: none;
+    color: var(--branco);
+    padding: 12px;
+    width: 100%;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: var(--azul-escuro);
+}
+
+/* Carrinho */
+#carrinho {
+    position: fixed;
+    right: 20px;
+    top: 120px;
+    width: 300px;
+    background-color: var(--branco);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.item-carrinho {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.remover {
+    color: red;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+/* Rodapé */
+footer {
+    background-color: var(--azul-escuro);
+    color: var(--branco);
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-top">
+        <h1>AutoPeças Prime</h1>
+        <div class="contato">
+            📞 Contato: <strong>(31) 99336-5096</strong>
+        </div>
+    </div>
+    <p>Qualidade, confiança e preço justo</p>
+</header>
+
+<nav>
+    <a href="#">Início</a>
+    <a href="#">Produtos</a>
+    <a href="#">Contato</a>
+</nav>
+
+<div class="container">
+    <h2 style="text-align:center;">Produtos em destaque</h2>
+
+    <div class="produtos">
+
+        <div class="produto">
+            <img src="https://via.placeholder.com/300x160">
+            <h3>Pastilha de Freio</h3>
+            <p class="preco">R$ 120,00</p>
+            <button onclick="adicionarCarrinho('Pastilha de Freio', 120)">
+                Adicionar ao carrinho
+            </button>
+        </div>
+
+        <div class="produto">
+            <img src="https://via.placeholder.com/300x160">
+            <h3>Filtro de Óleo</h3>
+            <p class="preco">R$ 35,00</p>
+            <button onclick="adicionarCarrinho('Filtro de Óleo', 35)">
+                Adicionar ao carrinho
+            </button>
+        </div>
+
+        <div class="produto">
+            <img src="https://via.placeholder.com/300x160">
+            <h3>Amortecedor</h3>
+            <p class="preco">R$ 450,00</p>
+            <button onclick="adicionarCarrinho('Amortecedor', 450)">
+                Adicionar ao carrinho
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Carrinho -->
+<div id="carrinho">
+    <h3>🛒 Carrinho</h3>
+    <div id="itens"></div>
+    <hr>
+    <p><strong>Total: R$ <span id="total">0</span></strong></p>
+</div>
+
+<footer>
+    <p>© 2025 AutoPeças Prime • Contato: (31) 99336-5096</p>
+</footer>
+
+<script>
+let carrinho = [];
+let total = 0;
+
+function adicionarCarrinho(nome, preco) {
+    carrinho.push({ nome, preco });
+    total += preco;
+    atualizarCarrinho();
+}
+
+function removerItem(index) {
+    total -= carrinho[index].preco;
+    carrinho.splice(index, 1);
+    atualizarCarrinho();
+}
+
+function atualizarCarrinho() {
+    const itensDiv = document.getElementById("itens");
+    itensDiv.innerHTML = "";
+
+    carrinho.forEach((item, index) => {
+        itensDiv.innerHTML += `
+            <div class="item-carrinho">
+                <span>${item.nome}</span>
+                <span>
+                    R$ ${item.preco}
+                    <span class="remover" onclick="removerItem(${index})">✖</span>
+                </span>
+            </div>
+        `;
+    });
+
+    document.getElementById("total").innerText = total;
+}
+</script>
+
+</body>
+</html><script>
+function finalizarCompra() {
+    if (carrinho.length === 0) {
+        alert("Seu carrinho está vazio.");
+        return;
+    }
+
+    let mensagem = "🛒 *Novo Pedido - AutoPeças Prime*%0A%0A";
+
+    carrinho.forEach(item => {
+        mensagem += `• ${item.nome} - R$ ${item.preco}%0A`;
+    });
+
+    mensagem += `%0A*Total:* R$ ${total}%0A%0A`;
+    mensagem += "Nome do cliente:%0AEndereço:%0AForma de pagamento:";
+
+    const telefone = "5531993365096";
+    const url = `https://wa.me/${telefone}?text=${mensagem}`;
+
+    window.open(url, "_blank");
+}
+</script><button onclick="finalizarCompra()" style="margin-top:10px;background:#16a34a;">
+    Finalizar compra
+</button>
